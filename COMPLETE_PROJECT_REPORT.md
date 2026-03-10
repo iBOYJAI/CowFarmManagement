@@ -255,14 +255,19 @@ The **Cow Farm Management System** successfully transitions traditional farm rec
 | :--- | :--- | :--- |
 | **A1** | MAIN DASHBOARD | ![Dashboard Viewport](file:///c:/xampp/htdocs/CowFarmManagement/screenshort/viewport/dashboard_viewport.png) |
 | **A2** | COW PROFILES LIST | ![Cow List Viewport](file:///c:/xampp/htdocs/CowFarmManagement/screenshort/viewport/cows_list_viewport.png) |
-| **A3** | FULL DASHBOARD VIEW | ![Dashboard Full Height](file:///c:/xampp/htdocs/CowFarmManagement/screenshort/fullheight/dashboard_fullheight.png) |
-| **A4** | FULL COW LIST VIEW | ![Cow List Full Height](file:///c:/xampp/htdocs/CowFarmManagement/screenshort/fullheight/cows_list_fullheight.png) |
-| **A5** | MEDICAL RECORD ENTRY | *[Placeholder for A5]* |
-| **A6** | VACCINATION SCHEDULE VIEW | *[Placeholder for A6]* |
-| **A7** | DAILY MILK LOGGING INTERFACE | *[Placeholder for A7]* |
-| **A8** | FEED INVENTORY STATUS | *[Placeholder for A8]* |
-| **A9** | FINANCIAL EXPENSES TRACKER | *[Placeholder for A9]* |
-| **A10** | PRODUCTION REPORTS (CSV EXPORT) | *[Placeholder for A10]* |
+| **A3** | HEALTH RECORDS | ![Health Records](file:///c:/xampp/htdocs/CowFarmManagement/screenshort/viewport/health_records_viewport.png) |
+| **A4** | VACCINATION SCHEDULE | ![Vaccinations](file:///c:/xampp/htdocs/CowFarmManagement/screenshort/viewport/vaccinations_viewport.png) |
+| **A5** | BREEDING & PREGNANCY | ![Breeding](file:///c:/xampp/htdocs/CowFarmManagement/screenshort/viewport/breeding_viewport.png) |
+| **A6** | MILK PRODUCTION LOG | ![Milk Production](file:///c:/xampp/htdocs/CowFarmManagement/screenshort/viewport/milk_production_viewport.png) |
+| **A7** | FEED & INVENTORY | ![Feed Inventory](file:///c:/xampp/htdocs/CowFarmManagement/screenshort/viewport/feed_inventory_viewport.png) |
+| **A8** | USER MANAGEMENT | ![Users](file:///c:/xampp/htdocs/CowFarmManagement/screenshort/viewport/users_viewport.png) |
+| **A9** | FINANCIAL EXPENSES | ![Expenses](file:///c:/xampp/htdocs/CowFarmManagement/screenshort/viewport/expenses_viewport.png) |
+| **A10** | VET APPOINTMENTS | ![Appointments](file:///c:/xampp/htdocs/CowFarmManagement/screenshort/viewport/appointments_viewport.png) |
+| **A11** | SYSTEM ALERTS | ![Alerts](file:///c:/xampp/htdocs/CowFarmManagement/screenshort/viewport/alerts_viewport.png) |
+| **A12** | ANALYTICAL REPORTS | ![Reports](file:///c:/xampp/htdocs/CowFarmManagement/screenshort/viewport/reports_viewport.png) |
+| **A13** | SYSTEM SETTINGS | ![Settings](file:///c:/xampp/htdocs/CowFarmManagement/screenshort/viewport/settings_viewport.png) |
+| **A14** | FULL DASHBOARD VIEW | ![Dashboard Full](file:///c:/xampp/htdocs/CowFarmManagement/screenshort/fullheight/dashboard_fullheight.png) |
+| **A15** | FULL COW LIST VIEW | ![Cow List Full](file:///c:/xampp/htdocs/CowFarmManagement/screenshort/fullheight/cows_list_fullheight.png) |
 
 ### APPENDIX – B (COMPLETE SOURCE CODE LISTINGS)
 

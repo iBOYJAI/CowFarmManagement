@@ -1,0 +1,147 @@
+<?php
+/**
+ * Edit Expense Page
+ */
+
+require_once __DIR__ . '/../config/config.php';
+require_once __DIR__ . '/../classes/Auth.php';
+require_once __DIR__ . '/../classes/Database.php';
+require_once __DIR__ . '/../classes/Helper.php';
+
+$auth = new Auth();
+$auth->requireLogin();
+
+$db = new DBHelper();
+$error = '';
+$id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+
+if (!$id) {
+    header('Location: ' . BASE_URL . 'expenses/index.php?tab=expenses');
+    exit;
+}
+
+$expense = $db->fetchOne("SELECT * FROM expenses WHERE id = ?", [$id]);
+if (!$expense) {
+    header('Location: ' . BASE_URL . 'expenses/index.php?tab=expenses');
+    exit;
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $expenseDate = $_POST['expense_date'] ?? '';
+    $category = $_POST['category'] ?? '';
+    $description = Helper::sanitize($_POST['description'] ?? '');
+    $amount = $_POST['amount'] ?? 0;
+    $vendor = Helper::sanitize($_POST['vendor'] ?? '');
+    $paymentMethod = $_POST['payment_method'] ?? 'cash';
+    $receiptNumber = Helper::sanitize($_POST['receipt_number'] ?? '');
+    $notes = Helper::sanitize($_POST['notes'] ?? '');
+    
+    if (empty($category) || empty($description) || $amount <= 0) {
+        $error = 'Category, description, and amount are required';
+    } else {
+        $sql = "UPDATE expenses SET expense_date = ?, category = ?, description = ?, amount = ?, vendor = ?, payment_method = ?, receipt_number = ?, notes = ? WHERE id = ?";
+        
+        $result = $db->execute($sql, [
+            $expenseDate, $category, $description, $amount, $vendor ?: null,
+            $paymentMethod, $receiptNumber ?: null, $notes ?: null, $id
+        ]);
+        
+        if ($result) {
+            header('Location: ' . BASE_URL . 'expenses/index.php?tab=expenses&success=1');
+            exit;
+        } else {
+            $error = 'Failed to update expense';
+        }
+    }
+    
+    $expense = $db->fetchOne("SELECT * FROM expenses WHERE id = ?", [$id]);
+}
+
+$pageTitle = 'Edit Expense';
+include __DIR__ . '/../includes/header.php';
+?>
+
+<div class="content-area">
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">Edit Expense</h2>
+            <a href="<?php echo BASE_URL; ?>expenses/index.php?tab=expenses" class="btn btn-outline">Back</a>
+        </div>
+        <div class="card-body">
+            <?php if ($error): ?>
+                <div class="alert alert-danger"><?php echo htmlspecialchars($error); ?></div>
+            <?php endif; ?>
+            
+            <form method="POST">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label required" for="expense_date">Date</label>
+                        <input type="date" class="form-control" id="expense_date" name="expense_date" 
+                               value="<?php echo $expense['expense_date']; ?>" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label required" for="category">Category</label>
+                        <select class="form-control" id="category" name="category" required>
+                            <option value="feed" <?php echo $expense['category'] === 'feed' ? 'selected' : ''; ?>>Feed</option>
+                            <option value="medicine" <?php echo $expense['category'] === 'medicine' ? 'selected' : ''; ?>>Medicine</option>
+                            <option value="equipment" <?php echo $expense['category'] === 'equipment' ? 'selected' : ''; ?>>Equipment</option>
+                            <option value="labor" <?php echo $expense['category'] === 'labor' ? 'selected' : ''; ?>>Labor</option>
+                            <option value="utilities" <?php echo $expense['category'] === 'utilities' ? 'selected' : ''; ?>>Utilities</option>
+                            <option value="maintenance" <?php echo $expense['category'] === 'maintenance' ? 'selected' : ''; ?>>Maintenance</option>
+                            <option value="other" <?php echo $expense['category'] === 'other' ? 'selected' : ''; ?>>Other</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label required" for="description">Description</label>
+                    <input type="text" class="form-control" id="description" name="description" 
+                           value="<?php echo htmlspecialchars($expense['description']); ?>" required>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label required" for="amount">Amount</label>
+                        <input type="number" class="form-control" id="amount" name="amount" step="0.01" min="0" 
+                               value="<?php echo $expense['amount']; ?>" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="vendor">Vendor</label>
+                        <input type="text" class="form-control" id="vendor" name="vendor" 
+                               value="<?php echo htmlspecialchars($expense['vendor'] ?? ''); ?>">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="payment_method">Payment Method</label>
+                        <select class="form-control" id="payment_method" name="payment_method">
+                            <option value="cash" <?php echo $expense['payment_method'] === 'cash' ? 'selected' : ''; ?>>Cash</option>
+                            <option value="bank" <?php echo $expense['payment_method'] === 'bank' ? 'selected' : ''; ?>>Bank</option>
+                            <option value="check" <?php echo $expense['payment_method'] === 'check' ? 'selected' : ''; ?>>Check</option>
+                            <option value="other" <?php echo $expense['payment_method'] === 'other' ? 'selected' : ''; ?>>Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="receipt_number">Receipt Number</label>
+                        <input type="text" class="form-control" id="receipt_number" name="receipt_number" 
+                               value="<?php echo htmlspecialchars($expense['receipt_number'] ?? ''); ?>">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="notes">Notes</label>
+                    <textarea class="form-control" id="notes" name="notes" rows="3"><?php echo htmlspecialchars($expense['notes'] ?? ''); ?></textarea>
+                </div>
+                
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">Update Expense</button>
+                    <a href="<?php echo BASE_URL; ?>expenses/index.php?tab=expenses" class="btn btn-outline">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<?php include __DIR__ . '/../includes/footer.php'; ?>
+

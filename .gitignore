@@ -1,0 +1,16 @@
+# XAMPP/Local Dev
+/backups/
+/uploads/cow_photos/*
+!/uploads/cow_photos/.gitkeep
+/reports/*.pdf
+/reports/*.csv
+
+# IDEs and OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Gemini/Agent artifacts (if any in project root)
+.gemini/
+.agents/

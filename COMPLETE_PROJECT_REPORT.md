@@ -264,17 +264,24 @@ The **Cow Farm Management System** successfully transitions traditional farm rec
 | **A9** | FINANCIAL EXPENSES | ![Expenses](screenshort/viewport/expenses_viewport.png) |
 | **A10** | VET APPOINTMENTS | ![Appointments](screenshort/viewport/appointments_viewport.png) |
 | **A11** | SYSTEM ALERTS | ![Alerts](screenshort/viewport/alerts_viewport.png) |
-| **A12** | ANALYTICAL REPORTS | ![Reports](screenshort/viewport/reports_viewport.png) |
-| **A13** | SYSTEM SETTINGS | ![Settings](screenshort/viewport/settings_viewport.png) |
-| **A14** | FULL DASHBOARD VIEW | ![Dashboard Full](screenshort/fullheight/dashboard_fullheight.png) |
-| **A15** | FULL COW LIST VIEW | ![Cow List Full](screenshort/fullheight/cows_list_fullheight.png) |
+| **A12** | SYSTEM SETTINGS | ![Settings](screenshort/viewport/settings_viewport.png) |
 
-### APPENDIX – B (COMPLETE SOURCE CODE LISTINGS)
+### APPENDIX – B (REPORT FORMATS)
 
-- **B1. `config/database.php`**: Primary connection class.
-- **B2. `classes/Auth.php`**: Secure RBAC logic.
-- **B3. `cows/add.php`**: Cow profile registration logic.
-- **B4. `milk/index.php`**: Yield tracking system.
-- **B5. `database/schema.sql`**: Full database structure.
+| Report ID | Title | Preview |
+| :--- | :--- | :--- |
+| **B1** | ANALYTICAL REPORTS MODULE | ![Reports Module](screenshort/viewport/reports_viewport.png) |
+| **B2** | FULL DASHBOARD ANALYTICS | ![Dashboard Full](screenshort/fullheight/dashboard_fullheight.png) |
+| **B3** | COMPLETE HERD OVERVIEW | ![Cow List Full](screenshort/fullheight/cows_list_fullheight.png) |
+| **B4** | MILK PRODUCTION SUMMARY | ![Milk Production Full](screenshort/fullheight/milk_production_full.png) |
+| **B5** | VACCINATION DUE LIST | ![Vaccinations Full](screenshort/fullheight/vaccinations_full.png) |
+
+### APPENDIX – C (COMPLETE SOURCE CODE LISTINGS)
+
+- **C1. `config/database.php`**: Primary connection class.
+- **C2. `classes/Auth.php`**: Secure RBAC logic.
+- **C3. `cows/add.php`**: Cow profile registration logic.
+- **C4. `milk/index.php`**: Yield tracking system.
+- **C5. `database/schema.sql`**: Full database structure.
 
 ---

@@ -251,30 +251,75 @@ The **Cow Farm Management System** successfully transitions traditional farm rec
 
 ### APPENDIX – A (SCREEN FORMATS)
 
-| Screen ID | Title | Preview |
-| :--- | :--- | :--- |
-| **A1** | MAIN DASHBOARD | ![Dashboard Viewport](screenshort/viewport/dashboard_viewport.png) |
-| **A2** | COW PROFILES LIST | ![Cow List Viewport](screenshort/viewport/cows_list_viewport.png) |
-| **A3** | HEALTH RECORDS | ![Health Records](screenshort/viewport/health_records_viewport.png) |
-| **A4** | VACCINATION SCHEDULE | ![Vaccinations](screenshort/viewport/vaccinations_viewport.png) |
-| **A5** | BREEDING & PREGNANCY | ![Breeding](screenshort/viewport/breeding_viewport.png) |
-| **A6** | MILK PRODUCTION LOG | ![Milk Production](screenshort/viewport/milk_production_viewport.png) |
-| **A7** | FEED & INVENTORY | ![Feed Inventory](screenshort/viewport/feed_inventory_viewport.png) |
-| **A8** | USER MANAGEMENT | ![Users](screenshort/viewport/users_viewport.png) |
-| **A9** | FINANCIAL EXPENSES | ![Expenses](screenshort/viewport/expenses_viewport.png) |
-| **A10** | VET APPOINTMENTS | ![Appointments](screenshort/viewport/appointments_viewport.png) |
-| **A11** | SYSTEM ALERTS | ![Alerts](screenshort/viewport/alerts_viewport.png) |
-| **A12** | SYSTEM SETTINGS | ![Settings](screenshort/viewport/settings_viewport.png) |
+#### A1. Main Dashboard
+![Dashboard Viewport](screenshort/viewport/dashboard_viewport.png)
+*The central hub providing real-time analytics on herd count, milk yield, and financial status.*
+
+#### A2. Cow Profiles List
+![Cow List Viewport](screenshort/viewport/cows_list_viewport.png)
+*A comprehensive registry of the entire herd with search, filter, and quick action capabilities.*
+
+#### A3. Health records
+![Health Records](screenshort/viewport/health_records_viewport.png)
+*Detailed medical history tracking for individual cows, including diagnosis and treatment logs.*
+
+#### A4. Vaccination Schedule
+![Vaccinations](screenshort/viewport/vaccinations_viewport.png)
+*Dynamic calendar and list view for managing upcoming and completed livestock vaccinations.*
+
+#### A5. Breeding & Pregnancy
+![Breeding](screenshort/viewport/breeding_viewport.png)
+*Specialized tracking for insemination dates, pregnancy status, and expected calving dates.*
+
+#### A6. Milk Production Log
+![Milk Production](screenshort/viewport/milk_production_viewport.png)
+*Daily recording interface for morning and evening milk yields per cow.*
+
+#### A7. Feed & Inventory
+![Feed Inventory](screenshort/viewport/feed_inventory_viewport.png)
+*Stock management for cattle feed and supplements with automated low-stock alerts.*
+
+#### A8. User Management
+![Users](screenshort/viewport/users_viewport.png)
+*Role-based access control interface for managing system administrators and farm staff.*
+
+#### A9. Financial Expenses
+![Expenses](screenshort/viewport/expenses_viewport.png)
+*Expense tracking module for feed purchases, medical costs, and general farm utility bills.*
+
+#### A10. Vet Appointments
+![Appointments](screenshort/viewport/appointments_viewport.png)
+*Scheduling system for routine veterinarian checkups and emergency medical visits.*
+
+#### A11. System Alerts
+![Alerts](screenshort/viewport/alerts_viewport.png)
+*Centralized notification center for urgent health alerts and inventory reminders.*
+
+#### A12. System Settings
+![Settings](screenshort/viewport/settings_viewport.png)
+*Configuration panel for farm details, system preferences, and backup management.*
 
 ### APPENDIX – B (REPORT FORMATS)
 
-| Report ID | Title | Preview |
-| :--- | :--- | :--- |
-| **B1** | ANALYTICAL REPORTS MODULE | ![Reports Module](screenshort/viewport/reports_viewport.png) |
-| **B2** | FULL DASHBOARD ANALYTICS | ![Dashboard Full](screenshort/fullheight/dashboard_fullheight.png) |
-| **B3** | COMPLETE HERD OVERVIEW | ![Cow List Full](screenshort/fullheight/cows_list_fullheight.png) |
-| **B4** | MILK PRODUCTION SUMMARY | ![Milk Production Full](screenshort/fullheight/milk_production_full.png) |
-| **B5** | VACCINATION DUE LIST | ![Vaccinations Full](screenshort/fullheight/vaccinations_full.png) |
+#### B1. Analytical Reports Module
+![Reports Module](screenshort/viewport/reports_viewport.png)
+*The main reporting engine capable of generating custom date-range performance summaries.*
+
+#### B2. Full Dashboard Analytics
+![Dashboard Full](screenshort/fullheight/dashboard_fullheight.png)
+*Comprehensive vertical dashboard view showing all data cards and performance charts.*
+
+#### B3. Complete Herd Overview
+![Cow List Full](screenshort/fullheight/cows_list_fullheight.png)
+*Full-length herd registry view optimized for printing and high-level auditing.*
+
+#### B4. Milk Production Summary
+![Milk Production Full](screenshort/fullheight/milk_production_full.png)
+*Detailed production report showing historical totals and individual cow performance.*
+
+#### B5. Vaccination Due List
+![Vaccinations Full](screenshort/fullheight/vaccinations_full.png)
+*Automated report generating a list of all livestock requiring medical attention in the next 30 days.*
 
 ### APPENDIX – C (COMPLETE SOURCE CODE LISTINGS)
 
@@ -283,5 +328,6 @@ The **Cow Farm Management System** successfully transitions traditional farm rec
 - **C3. `cows/add.php`**: Cow profile registration logic.
 - **C4. `milk/index.php`**: Yield tracking system.
 - **C5. `database/schema.sql`**: Full database structure.
+
 
 ---

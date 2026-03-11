@@ -179,32 +179,187 @@ The system architecture follows a synchronized data flow designed for the unique
 
 The database consists of specialized tables for `users`, `cows`, `health_records`, `vaccinations`, `milk_production`, and `breeding_records`. `cows` is the central hub, linked via `cow_id` to all activity logs.
 
-### 3.3 FILE SPECIFICATIONS (DATABASE STRUCTURE)
+### 3.3 FILE SPECIFICATIONS
 
-#### Table: `cows`
-| Field | Type | Description |
-| :--- | :--- | :--- |
-| id | INT | Primary Key, Auto-increment |
-| tag_number | VARCHAR(50) | Unique ID (e.g., TN001) |
-| breed | VARCHAR(50) | Breed name |
-| gender | ENUM | male, female |
-| status | ENUM | active, sold, deceased |
+#### Table Name: `users`
+**Purpose:** Stores user accounts for authentication and role-based access.
+| Field Name | Data Type | Size | Constraints | Description |
+| :--- | :--- | :--- | :--- | :--- |
+| id | INT | - | Primary Key, Auto-increment | Unique identifier for the user |
+| username | VARCHAR | 50 | Unique, Not Null | Login username |
+| email | VARCHAR | 100 | Unique, Not Null | Email address |
+| password | VARCHAR | 255 | Not Null | Hashed password |
+| full_name | VARCHAR | 100 | Not Null | User's full name |
+| role | ENUM | - | Default 'staff' | User role (admin/vet/manager/staff) |
+| phone | VARCHAR | 20 | - | Contact number |
+| status | ENUM | - | Default 'active' | Account status |
+| created_at | TIMESTAMP | - | Default Current | Record creation time |
 
-#### Table: `milk_production`
-| Field | Type | Description |
-| :--- | :--- | :--- |
-| id | INT | Primary Key |
-| cow_id | INT | Foreign Key (cows.id) |
-| morning_yield | DECIMAL | AM yield in liters |
-| evening_yield | DECIMAL | PM yield in liters |
-| total_yield | DECIMAL | Daily total |
+#### Table Name: `cows`
+**Purpose:** Stores comprehensive profiles and current status of all cattle in the farm.
+| Field Name | Data Type | Size | Constraints | Description |
+| :--- | :--- | :--- | :--- | :--- |
+| id | INT | - | Primary Key, Auto-increment | Unique identifier for the cow |
+| tag_number | VARCHAR | 50 | Unique, Not Null | Unique identification tag number |
+| name | VARCHAR | 100 | - | Name of the cow |
+| breed | VARCHAR | 50 | - | Breed name |
+| date_of_birth | DATE | - | - | Birth date of the cow |
+| gender | ENUM | - | Not Null | Gender (male/female) |
+| weight | DECIMAL | 8,2 | - | Weight in kg |
+| color | VARCHAR | 50 | - | Color of the cow |
+| status | ENUM | - | Default 'active' | Current status (active/sold/deceased) |
+| created_by | INT | - | Foreign Key | ID of the user who created the record |
+| created_at | TIMESTAMP | - | Default Current | Record creation time |
+
+#### Table Name: `health_records`
+**Purpose:** Maintains medical history, checkups, and treatments for each cow.
+| Field Name | Data Type | Size | Constraints | Description |
+| :--- | :--- | :--- | :--- | :--- |
+| id | INT | - | Primary Key, Auto-increment | Unique record ID |
+| cow_id | INT | - | Foreign Key, Not Null | Reference to cows table |
+| record_date | DATE | - | Not Null | Date of health record |
+| record_type | ENUM | - | Not Null | Type (checkup, treatment, surgery, etc.) |
+| diagnosis | TEXT | - | - | Medical diagnosis details |
+| medication | VARCHAR | 255 | - | Medication prescribed |
+| dosage | VARCHAR | 100 | - | Dosage of medication |
+| cost | DECIMAL | 10,2 | - | Cost of treatment |
+| created_by | INT | - | Foreign Key | User who logged the record |
+
+#### Table Name: `vaccinations`
+**Purpose:** Tracks vaccination schedules and completion for the herd.
+| Field Name | Data Type | Size | Constraints | Description |
+| :--- | :--- | :--- | :--- | :--- |
+| id | INT | - | Primary Key, Auto-increment | Unique record ID |
+| cow_id | INT | - | Foreign Key, Not Null | Reference to cows table |
+| vaccine_name | VARCHAR | 100 | Not Null | Name of the vaccine |
+| vaccination_date | DATE | - | Not Null | Date administered |
+| next_due_date | DATE | - | - | Due date for the next dose |
+| administered_by | VARCHAR | 100 | - | Person who administered |
+| cost | DECIMAL | 10,2 | - | Cost of vaccination |
+
+#### Table Name: `breeding_records`
+**Purpose:** Manages the lifecycle events related to cattle reproduction.
+| Field Name | Data Type | Size | Constraints | Description |
+| :--- | :--- | :--- | :--- | :--- |
+| id | INT | - | Primary Key, Auto-increment | Unique record ID |
+| cow_id | INT | - | Foreign Key, Not Null | Reference to cows table |
+| breeding_type | ENUM | - | Not Null | Type (AI, natural, embryo) |
+| breeding_date | DATE | - | Not Null | Date of insemination/breeding |
+| bull_tag | VARCHAR | 50 | - | Tag number of the sire |
+| expected_calving_date | DATE | - | - | Calculated expected delivery date |
+| pregnancy_status | ENUM | - | Default 'pregnant' | Status (pregnant, aborted, delivered) |
+
+#### Table Name: `milk_production`
+**Purpose:** Records daily milk yields to analyze productivity.
+| Field Name | Data Type | Size | Constraints | Description |
+| :--- | :--- | :--- | :--- | :--- |
+| id | INT | - | Primary Key, Auto-increment | Unique record ID |
+| cow_id | INT | - | Foreign Key, Not Null | Reference to cows table |
+| production_date | DATE | - | Not Null | Date of milk collection |
+| session | ENUM | - | Default 'both' | Milking session (morning/evening) |
+| morning_yield | DECIMAL | 8,2 | - | Morning yield in liters |
+| evening_yield | DECIMAL | 8,2 | - | Evening yield in liters |
+| total_yield | DECIMAL | 8,2 | - | Daily total yield |
+| recorded_by | INT | - | Foreign Key | User who logged the record |
+
+#### Table Name: `feed_inventory`
+**Purpose:** Monitors the stock levels of different cattle feeds.
+| Field Name | Data Type | Size | Constraints | Description |
+| :--- | :--- | :--- | :--- | :--- |
+| id | INT | - | Primary Key, Auto-increment | Unique record ID |
+| feed_type_id | INT | - | Foreign Key, Not Null | Reference to feed types |
+| quantity | DECIMAL | 10,2 | Not Null | Current stock quantity |
+| unit_price | DECIMAL | 10,2 | - | Price per unit |
+| purchase_date | DATE | - | - | Date of purchase |
+| status | ENUM | - | Default 'available' | Stock status (available, low_stock, etc.) |
+
+#### Table Name: `expenses`
+**Purpose:** Tracks all financial expenditures related to farm operations.
+| Field Name | Data Type | Size | Constraints | Description |
+| :--- | :--- | :--- | :--- | :--- |
+| id | INT | - | Primary Key, Auto-increment | Unique record ID |
+| expense_date | DATE | - | Not Null | Date the expense occurred |
+| category | ENUM | - | Not Null | Expense type (feed, medicine, etc.) |
+| description | VARCHAR | 255 | Not Null | Short description of the expense |
+| amount | DECIMAL | 10,2 | Not Null | Total expense amount |
+| payment_method| ENUM | - | Default 'cash' | Method of payment |
+| created_by | INT | - | Foreign Key | User who logged the record |
+
+#### Table Name: `sales`
+**Purpose:** Records milk or livestock sales to track revenue.
+| Field Name | Data Type | Size | Constraints | Description |
+| :--- | :--- | :--- | :--- | :--- |
+| id | INT | - | Primary Key, Auto-increment | Unique record ID |
+| sale_date | DATE | - | Not Null | Date the sale occurred |
+| customer_name | VARCHAR | 100 | - | Name of the buyer/depot |
+| milk_quantity | DECIMAL | 8,2 | Not Null | Total liters sold |
+| total_amount | DECIMAL | 10,2 | Not Null | Revenue generated |
+| payment_status | ENUM | - | Default 'paid' | Status (paid, pending, partial) |
+
+#### Table Name: `appointments`
+**Purpose:** Schedules vet visits and important farm activities.
+| Field Name | Data Type | Size | Constraints | Description |
+| :--- | :--- | :--- | :--- | :--- |
+| id | INT | - | Primary Key, Auto-increment | Unique record ID |
+| appointment_date | DATE | - | Not Null | Date of the appointment |
+| appointment_time | TIME | - | - | Time of the appointment |
+| cow_id | INT | - | Foreign Key | Reference to specific cow (optional) |
+| vet_name | VARCHAR | 100 | - | Name of the visiting vet |
+| status | ENUM | - | Default 'scheduled'| Appointment status (scheduled, completed) |
 
 ### 3.4 MODULE SPECIFICATIONS
 
-- **Dashboard Module:** Provides at-a-glance KPIs and recent activities.
-- **Health Module:** Manages medication logs and vaccination schedules.
-- **Financial Module:** Tracks cash flow from milk sales and operational expenses.
-- **Inventory Module:** Monitors feed stock and consumption patterns.
+The Cow Farm Management System is designed as a modular web application that consists of several functional modules. Each module performs a specific operation in the system and works together to provide an efficient platform for modern dairy farm management. The modular structure makes the system easier to develop, test, and maintain. It also allows developers to update or modify one module without affecting the other modules of the system.
+
+**List of Modules:**
+• Authentication & User Management
+• Cow Profile & Herd Management
+• Health & Vaccination Management
+• Milk Production Management
+• Breeding & Pregnancy Tracking
+• Feed & Inventory Management
+• Financial Management
+• Admin & Reporting
+
+**AUTHENTICATION & USER MANAGEMENT**
+The Authentication & User Management module is responsible for handling user access to the system. This module allows farm administrators to register staff and veterinarians, and users to log in securely using their credentials. It verifies the credentials entered by the user and allows access only if the information is correct, helping to maintain data security and privacy.
+
+The module also manages user profiles by storing basic information such as name, email, and role assignments (Admin, Manager, Vet, Staff). It maintains session control and ensures that based on the user's role, they are granted appropriate access privileges to specific functional areas of the application.
+
+**COW PROFILE & HERD MANAGEMENT**
+The Cow Profile & Herd Management module is used to organize and manage the cattle in the farm. This module allows administrators and staff to create detailed profiles for each cow, capturing essential information like breed, date of birth, tag number, gender, genetics, and current status.
+
+Users can browse the herd, search using tag numbers, and select individual cows to view their comprehensive history in a centralized view. It allows staff to update or remove profiles whenever necessary, tracking their lifecycle from active status to sold or deceased. This module plays an important role in providing a structured baseline for all other farm activities.
+
+**HEALTH & VACCINATION MANAGEMENT**
+The Health & Vaccination Management module allows veterinarians and farm managers to track the well-being of the herd. Through this module, users can log daily checkups, diagnose illnesses, and record treatments or medications given to specific cows.
+
+The module also tracks vaccination schedules, alerting the farm management about upcoming or overdue vaccinations. By maintaining a well-organized medical history, the system ensures that the herd remains healthy, reducing the risk of disease spread within the farm and preventing production losses.
+
+**MILK PRODUCTION MANAGEMENT**
+The Milk Production Management module controls the process of recording daily milk yields. Staff can input the milk quantity collected from each cow during morning and evening milking sessions. The system automatically calculates total daily yields and evaluates the performance of individual animals.
+
+By systematically storing this data, this module ensures that production levels are monitored consistently. It generates performance trends that help farmers identify high-yielding cows, detect sudden drops in output, and make informed feeding or management decisions.
+
+**BREEDING & PREGNANCY TRACKING**
+This module manages the lifecycle events related to cattle reproduction. Administrators and veterinarians can configure and record breeding data, including artificial insemination dates, expected calving dates, and pregnancy status. 
+
+This tracking ensures proper monitoring of the reproductive health of the herd. It provides automated timelines for the gestational period and helps farmers in forecasting the future herd size and planning the transition of cows from the milking herd to the dry cow group.
+
+**FEED & INVENTORY MANAGEMENT**
+The Feed & Inventory Management module is designed to monitor the stock levels of structural cattle feed and dietary supplements. It allows the farm manager to log incoming feed purchases, track unit prices, and monitor overall stock levels.
+
+The system provides low-stock alerts and statuses, ensuring that the farm never runs out of essential ingredients. By standardizing feed tracking against inventory limits, the farm can optimize feed purchasing strategies and avoid emergency procurement costs.
+
+**FINANCIAL MANAGEMENT**
+The Financial Management module tracks the cash flow associated with running the dairy farm. It records all daily expenses such as feed purchases, medical costs, labor wages, and maintenance fees to keep track of the farm's outgoings.
+
+On the revenue side, it tracks milk sales to various customers and local depots, generating clear insights on income. By comparing aggregated revenue against operational expenses, this module helps farm owners assess profitability and cash flow.
+
+**ADMIN & REPORTING**
+The Admin & Reporting module provides administrative control for managing the entire system. Administrators can manage system settings, review logs, and oversee all farm operations through an interactive dashboard.
+
+The reporting feature generates aggregated reports based on milk production, health statistics, feed inventory, and financial records. These visual charts and tabular analyses help administrators evaluate the performance of the farm and understand operational bottlenecks, facilitating data-driven decisions that maximize efficiency.
 
 ---
 
@@ -240,10 +395,26 @@ The **Cow Farm Management System** successfully transitions traditional farm rec
 
 ## BIBLIOGRAPHY
 
-1. **Official PHP Manual**: PDO and Prepared Statements documentation.
-2. **MySQL Reference Manual**: Relational database design and optimization.
-3. **W3Schools**: Standard HTML5/CSS3 implementation patterns.
-4. **XAMPP Project**: Local server environment configuration guides.
+### Book References
+
+1. **Robin Nixon** (2021). *Learning PHP, MySQL & JavaScript: With jQuery, CSS & HTML5* (6th Edition). O'Reilly Media.
+2. **Luke Welling, Laura Thomson** (2016). *PHP and MySQL Web Development* (5th Edition). Addison-Wesley Professional.
+3. **Jon Duckett** (2011). *HTML and CSS: Design and Build Websites*. Wiley.
+4. **Jon Duckett** (2014). *JavaScript and JQuery: Interactive Front-End Web Development*. Wiley.
+5. **Joel Murach, Ray Harris** (2017). *Murach's PHP and MySQL* (3rd Edition). Mike Murach & Associates.
+
+### URL References
+
+1. **Official PHP Manual** - Comprehensive guide on PDO and Prepared Statements.  
+   *URL:* [https://www.php.net/manual/en/](https://www.php.net/manual/en/)
+2. **MySQL Reference Manual** - Guidelines for relational database design and optimization.  
+   *URL:* [https://dev.mysql.com/doc/](https://dev.mysql.com/doc/)
+3. **W3Schools Online Web Tutorials** - Standard HTML5, CSS3, and JavaScript implementation patterns.  
+   *URL:* [https://www.w3schools.com/](https://www.w3schools.com/)
+4. **Apache Friends (XAMPP Project)** - Cross-platform local server environment configuration guides.  
+   *URL:* [https://www.apachefriends.org/](https://www.apachefriends.org/)
+5. **MDN Web Docs** - Mozilla's official developer network for comprehensive web technology documentation.  
+   *URL:* [https://developer.mozilla.org/](https://developer.mozilla.org/)
 
 ---
 
